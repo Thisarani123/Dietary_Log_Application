@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "735292466311",
+    "project_id": "profile-sample-ad41b",
+    "storage_bucket": "profile-sample-ad41b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735292466311:android:cfd58f99d59e5b42d4c422",
+        "android_client_info": {
+          "package_name": "com.example.dietary_log_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735292466311-mq67m16u35ao7l3v28q6018mla7oeomo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDux1RGxJ-_0CbuDeJYRfAKND_HHknd07A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735292466311-mq67m16u35ao7l3v28q6018mla7oeomo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
