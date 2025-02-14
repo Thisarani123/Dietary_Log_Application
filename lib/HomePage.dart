@@ -22,6 +22,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       totalFat += fat;
     });
   }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -35,6 +36,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +90,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       ),
     );
   }
+
   String _formatDate(DateTime date) {
     DateTime today = DateTime.now();
     if (date.year == today.year &&
@@ -97,6 +100,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     }
     return "${date.day} ${_monthName(date.month)} ${date.year}";
   }
+
   String _monthName(int month) {
     const months = [
       "Jan",
@@ -114,6 +118,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     ];
     return months[month - 1];
   }
+
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,6 +143,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       ],
     );
   }
+
   Widget _buildCalorieIndicator() {
     return CircleAvatar(
       radius: 40,
@@ -148,7 +154,9 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       ),
     );
   }
-  
+
+ 
+
   Widget _buildAddMealButton(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -157,7 +165,16 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      
+      // onPressed: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => AddMealScreen(
+      //         onSave: _updateMealData,
+      //       ),
+      //     ),
+      //   );
+      // },
       onPressed: () {},
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -168,7 +185,21 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       ),
     );
   }
- 
+
+  Widget _buildMacroIndicator(Color color, String label) {
+    return Column(
+      children: [
+        Container(
+          width: 50,
+          height: 5,
+          color: color,
+        ),
+        SizedBox(height: 5),
+        Text(label, style: TextStyle(color: Colors.white)),
+      ],
+    );
+  }
+
   Widget _buildMealCard(String meal, String calories, String imagePath) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -179,7 +210,29 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(15),
         ),
-        
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(imagePath, width: 30, height: 30),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(calories,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(meal),
+                  ],
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.add_circle, color: Colors.green),
+            ),
+          ],
+        ),
       ),
     );
   }

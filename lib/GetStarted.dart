@@ -37,7 +37,7 @@ class _GetstartedState extends State<Getstarted> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Lose weight, get healthy, change your habits or start a new diet.",
+                    "Lose weight, get healthy, change your habits or start a new diet plan.",
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.8),
                       fontSize: 18,
