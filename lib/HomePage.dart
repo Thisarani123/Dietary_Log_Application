@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dietary_log_app/AddMeal.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -8,18 +10,31 @@ class DietaryLogPage extends StatefulWidget {
 
 class _DietaryLogPageState extends State<DietaryLogPage> {
   DateTime selectedDate = DateTime.now();
-
   int totalCalories = 0;
-  double totalCarbs = 0.0;
-  double totalProtein = 0.0;
-  double totalFat = 0.0;
 
-  void _updateMealData(int calories, double carbs, double protein, double fat) {
+  Map<String, Map<String, dynamic>> meals = {
+    'Breakfast': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
+    'Lunch': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
+    'Dinner': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
+    'Snack': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
+  };
+
+  void _updateMealData(String mealType, int calories, double carbs, double protein, double fat) {
     setState(() {
+      meals[mealType]!['calories'] += calories;
+      meals[mealType]!['carbs'] += carbs;
+      meals[mealType]!['protein'] += protein;
+      meals[mealType]!['fat'] += fat;
       totalCalories += calories;
-      totalCarbs += carbs;
-      totalProtein += protein;
-      totalFat += fat;
+    });
+
+    FirebaseFirestore.instance.collection('meals').add({
+      'mealType': mealType,
+      'calories': calories,
+      'carbs': carbs,
+      'protein': protein,
+      'fat': fat,
+      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
     });
   }
 
@@ -163,17 +178,17 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      // onPressed: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => AddMealScreen(
-      //         onSave: _updateMealData,
-      //       ),
-      //     ),
-      //   );
-      // },
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddMealScreen(
+              onSave: _updateMealData,
+            ),
+          ),
+        );
+      },
+      
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
