@@ -1,4 +1,6 @@
+import 'package:dietary_log_app/AddMeal.dart';
 import 'package:dietary_log_app/HomePage.dart';
+import 'package:dietary_log_app/profile_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,7 +26,13 @@ class _sidebarState extends State<sidebar> {
 
   final pages = [
     DietaryLogPage(),
+    AddMealScreen(
+      onSave: (String mealType, int calories, double carbs, double protein,
+          double fat) {},
+    ),
+    profilesetting(),
   ];
+
   Function updateState(int index) {
     return () {
       setState(() {
@@ -33,6 +41,7 @@ class _sidebarState extends State<sidebar> {
       Navigator.pop(context);
     };
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +54,7 @@ class _sidebarState extends State<sidebar> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: AssetImage('assets/images/girl.webp'),
+                  image: AssetImage('assets/images/image.png'),
                 ),
               ),
               padding: EdgeInsets.all(0),
@@ -103,17 +112,20 @@ class _sidebarState extends State<sidebar> {
           ],
         ),
       ),
+
       body: pages[indexClicked],
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _scaffoldKey.currentState?.openDrawer();
+          _scaffoldKey.currentState?.openDrawer(); 
         },
         child: Icon(Icons.menu),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.startTop, 
     );
   }
 }
+
 class AppDrawerTile extends StatelessWidget {
   const AppDrawerTile({
     Key? key,
@@ -155,18 +167,23 @@ class AppDrawerTile extends StatelessWidget {
     );
   }
 }
+
 class Defaults {
   static final Color drawerItemColor = Color.fromARGB(255, 3, 7, 9);
   static final Color? drawerItemSelectedColor =
       Color.fromARGB(255, 249, 249, 249);
   static final Color? drawerSelectedTileColor =
-      Color.fromARGB(255, 149, 222, 171);
+      Color.fromARGB(255, 16, 145, 54);
 
   static final drawerItemText = [
     'Home',
+    'Add Meal',
+    'Profile',
   ];
 
   static final drawerItemIcon = [
     Icons.home,
+    Icons.auto_graph_sharp,
+    Icons.person,
   ];
 }

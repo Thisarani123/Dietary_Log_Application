@@ -154,13 +154,11 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       ),
     );
   }
-
- 
-
+  
   Widget _buildAddMealButton(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
