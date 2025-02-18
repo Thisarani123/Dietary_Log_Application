@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dietary_log_app/AddMeal.dart';
 import 'package:flutter/material.dart';
+import 'package:dietary_log_app/AddMeal.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class DietaryLogPage extends StatefulWidget {
@@ -18,6 +18,54 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     'Dinner': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
     'Snack': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
   };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMealData();
+  }
+
+  _loadMealData() async {
+    FirebaseFirestore.instance
+        .collection('meals')
+        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(selectedDate))
+        .get()
+        .then((querySnapshot) {
+      setState(() {
+        meals.forEach((mealType, mealData) {
+          mealData['calories'] = 0;
+          mealData['carbs'] = 0.0;
+          mealData['protein'] = 0.0;
+          mealData['fat'] = 0.0;
+        });
+
+        querySnapshot.docs.forEach((doc) {
+          var mealData = doc.data() as Map<String, dynamic>;
+          String mealType = mealData['mealType'];
+          meals[mealType]!['calories'] += mealData['calories'] as int;
+          meals[mealType]!['carbs'] += mealData['carbs'] as double;
+          meals[mealType]!['protein'] += mealData['protein'] as double;
+          meals[mealType]!['fat'] += mealData['fat'] as double;
+          totalCalories += mealData['calories'] as int;
+        });
+      });
+    });
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        _loadMealData();
+      });
+    }
+  }
 
   void _updateMealData(String mealType, int calories, double carbs, double protein, double fat) {
     setState(() {
@@ -38,24 +86,10 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     });
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 214, 212, 212),
+      backgroundColor: const Color.fromARGB(255, 222, 222, 222),
       body: SafeArea(
         child: Column(
           children: [
@@ -69,7 +103,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
                     SizedBox(height: 20),
                     _buildCalorieIndicator(),
                     SizedBox(height: 20),
-                   
+                    _buildMacrosBar(),
                     SizedBox(height: 20),
                     _buildAddMealButton(context),
                     SizedBox(height: 20),
@@ -78,7 +112,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.calendar_today, color: Colors.black),
+                          Icon(Icons.calendar_today, color: const Color.fromARGB(255, 6, 14, 240)),
                           SizedBox(width: 5),
                           Text(
                             _formatDate(selectedDate),
@@ -88,14 +122,10 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    _buildMealCard(
-                        "Breakfast", "243kcal", "assets/images/breakfast.png"),
-                    _buildMealCard(
-                        "Lunch", "335kcal", "assets/images/lunch.png"),
-                    _buildMealCard(
-                        "Dinner", "0kcal", "assets/images/dinner.png"),
-                    _buildMealCard(
-                        "Snacks", "0kcal", "assets/images/snacks.png"),
+                    _buildMealCard("Breakfast", meals['Breakfast']!['calories'].toString(), "assets/images/breakfast.png"),
+                    _buildMealCard("Lunch", meals['Lunch']!['calories'].toString(), "assets/images/lunch.png"),
+                    _buildMealCard("Dinner", meals['Dinner']!['calories'].toString(), "assets/images/dinner.png"),
+                    _buildMealCard("Snacks", meals['Snack']!['calories'].toString(), "assets/images/snacks.png"),
                   ],
                 ),
               ),
@@ -108,53 +138,35 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
 
   String _formatDate(DateTime date) {
     DateTime today = DateTime.now();
-    if (date.year == today.year &&
-        date.month == today.month &&
-        date.day == today.day) {
+    if (date.year == today.year && date.month == today.month && date.day == today.day) {
       return "Today";
     }
     return "${date.day} ${_monthName(date.month)} ${date.year}";
   }
 
   String _monthName(int month) {
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     return months[month - 1];
   }
 
   Widget _buildHeader() {
+    DateTime today = DateTime.now();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,  
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundImage: AssetImage('assets/images/profile.jpg'),
+          backgroundImage: AssetImage('assets/images/profile.png'),
         ),
+        SizedBox(width: 20),  
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("HELLO,", style: TextStyle(fontWeight: FontWeight.bold)),
-            Text("NUWAN", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("HELLO,", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text("USER", style: TextStyle(fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 196, 24, 104), fontSize: 15)),
           ],
         ),
-        Column(
-          children: [
-            Text("10"),
-            Text("FEB", style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        )
+         
       ],
     );
   }
@@ -162,89 +174,59 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
   Widget _buildCalorieIndicator() {
     return CircleAvatar(
       radius: 40,
-      backgroundColor: Colors.red,
+      backgroundColor: const Color.fromARGB(255, 179, 22, 11),
       child: Text(
         "$totalCalories kcal",
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-  
-  Widget _buildAddMealButton(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddMealScreen(
-              onSave: _updateMealData,
-            ),
-          ),
-        );
-      },
-      
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Text(
-          "Add My Meals",
-          style: TextStyle(color: Colors.white, fontSize: 16),
-        ),
+        style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget _buildMacroIndicator(Color color, String label) {
-    return Column(
+  Widget _buildMacrosBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          width: 50,
-          height: 5,
-          color: color,
-        ),
-        SizedBox(height: 5),
-        Text(label, style: TextStyle(color: Colors.white)),
+        _buildMacroItem('Carbs', meals['Breakfast']!['carbs']),
+        _buildMacroItem('Protein', meals['Breakfast']!['protein']),
+        _buildMacroItem('Fat', meals['Breakfast']!['fat']),
       ],
     );
   }
 
-  Widget _buildMealCard(String meal, String calories, String imagePath) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Image.asset(imagePath, width: 30, height: 30),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(calories,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text(meal),
-                  ],
-                ),
-              ],
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.add_circle, color: Colors.green),
-            ),
-          ],
+  Widget _buildMacroItem(String label, double value) {
+    return Column(
+      children: [
+        Text(value.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(label),
+      ],
+    );
+  }
+
+  Widget _buildAddMealButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AddMealScreen(onSave: _updateMealData),
+          ),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0), 
+    ),
+      child: Text('Add Meal',style: TextStyle(color: const Color.fromARGB(255, 250, 249, 249)),),
+    );
+  }
+
+  Widget _buildMealCard(String mealType, String calories, String image) {
+    return GestureDetector(
+      child: Card(
+        elevation: 5,
+        child: ListTile(
+          leading: Image.asset(image),
+          title: Text(mealType),
+          subtitle: Text('Calories: $calories'),
         ),
       ),
     );
