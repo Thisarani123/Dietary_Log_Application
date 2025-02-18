@@ -54,7 +54,7 @@ class _sidebarState extends State<sidebar> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: AssetImage('assets/images/image.png'),
+                  image: AssetImage('assets/images/image.jpg'),
                 ),
               ),
               padding: EdgeInsets.all(0),
@@ -183,7 +183,7 @@ class Defaults {
 
   static final drawerItemIcon = [
     Icons.home,
-    Icons.auto_graph_sharp,
+    Icons.add_box_rounded,
     Icons.person,
   ];
 }
