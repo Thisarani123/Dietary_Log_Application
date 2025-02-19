@@ -1,3 +1,4 @@
+import 'package:dietary_log_app/profile_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:dietary_log_app/AddMeal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -88,7 +89,14 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => profilesetting()),
+        );
+      },
+    child: Scaffold(
       backgroundColor: const Color.fromARGB(255, 222, 222, 222),
       body: SafeArea(
         child: Column(
@@ -133,6 +141,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
           ],
         ),
       ),
+    ),
     );
   }
 
