@@ -14,7 +14,7 @@ class _GetstartedState extends State<Getstarted> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 90, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.black,
           image: DecorationImage(
@@ -31,7 +31,7 @@ class _GetstartedState extends State<Getstarted> {
                     TextSpan(
                       text: "Health",
                       style: GoogleFonts.pacifico(
-                        fontSize: 50,
+                        fontSize: 45,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -39,7 +39,7 @@ class _GetstartedState extends State<Getstarted> {
                     TextSpan(
                       text: "Bites",
                       style: GoogleFonts.pacifico(
-                        fontSize: 50,
+                        fontSize: 45,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 3, 248, 3), 
                       ),
@@ -54,10 +54,10 @@ class _GetstartedState extends State<Getstarted> {
                   Text(
                     "Lose weight, get healthy, change your habits or start a new diet plan.",
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontSize: 24,
+                      color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.9),
+                      fontSize: 21,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
+                      letterSpacing: 2,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -73,7 +73,7 @@ class _GetstartedState extends State<Getstarted> {
                     child: Ink(
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                         decoration: BoxDecoration(
                           color: Color.fromARGB(213, 6, 252, 43),
                           borderRadius: BorderRadius.circular(40),
@@ -82,7 +82,7 @@ class _GetstartedState extends State<Getstarted> {
                           "Get Started",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 24,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
