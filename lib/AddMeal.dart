@@ -103,7 +103,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
             child: Column(
               children: [
                 SizedBox(height: 60),
@@ -205,7 +205,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                         ),
-                          child: Text('Save Meal',style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)))),
+                          child: Text('Save Meal',style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255),fontSize: 17))),
                     ],
                   ),
                 ),
