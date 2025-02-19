@@ -103,7 +103,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(25),
             child: Column(
               children: [
                 SizedBox(height: 60),

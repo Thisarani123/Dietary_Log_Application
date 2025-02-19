@@ -14,7 +14,7 @@ class _GetstartedState extends State<Getstarted> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 90, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 140, horizontal: 20),
         decoration: BoxDecoration(
           color: Colors.black,
           image: DecorationImage(
@@ -55,7 +55,7 @@ class _GetstartedState extends State<Getstarted> {
                     "Lose weight, get healthy, change your habits or start a new diet plan.",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.9),
-                      fontSize: 21,
+                      fontSize: 19,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,
                     ),
@@ -82,7 +82,7 @@ class _GetstartedState extends State<Getstarted> {
                           "Get Started",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 22,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
