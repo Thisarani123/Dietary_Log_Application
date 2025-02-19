@@ -25,13 +25,28 @@ class _GetstartedState extends State<Getstarted> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "HealthBites",
-              style: GoogleFonts.pacifico(
-                fontSize: 50,
-                color: Colors.white,
+            RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "Health",
+                      style: GoogleFonts.pacifico(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Bites",
+                      style: GoogleFonts.pacifico(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 3, 248, 3), 
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +55,7 @@ class _GetstartedState extends State<Getstarted> {
                     "Lose weight, get healthy, change your habits or start a new diet plan.",
                     style: TextStyle(
                       color: Colors.white.withOpacity(0.8),
-                      fontSize: 18,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1,
                     ),
@@ -67,7 +82,7 @@ class _GetstartedState extends State<Getstarted> {
                           "Get Started",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 22,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                           ),
