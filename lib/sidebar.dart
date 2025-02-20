@@ -1,8 +1,10 @@
 import 'package:dietary_log_app/AddMeal.dart';
 import 'package:dietary_log_app/HomePage.dart';
 import 'package:dietary_log_app/profile_setting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var indexClicked = 0;
 
@@ -40,6 +42,26 @@ class _sidebarState extends State<sidebar> {
       });
       Navigator.pop(context);
     };
+  }
+
+  // Logout function to clear session and navigate to login page
+  Future<void> logout(BuildContext context) async {
+    try {
+      // Sign out from Firebase
+      await FirebaseAuth.instance.signOut();
+
+      // Clear shared preferences (if used for session storage)
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      // Navigate to the login screen after logout
+      Navigator.pushReplacementNamed(context, '/login');  // Ensure '/login' is the route for your login screen
+    } catch (e) {
+      print("Error during logout: $e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("An error occurred during logout"),
+      ));
+    }
   }
 
   @override
@@ -103,6 +125,28 @@ class _sidebarState extends State<sidebar> {
                       index: i,
                       onTap: updateState(i),
                     ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  // Add the Logout option in the Drawer
+                  ListTile(
+                    title: Text(
+                      'Logout',
+                      style: GoogleFonts.robotoSlab(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.exit_to_app,
+                      size: 30,
+                      color: Colors.black,
+                    ),
+                    onTap: () {
+                      logout(context); // Call the logout function when tapped
+                    },
+                  ),
                   const SizedBox(
                     height: 30,
                   ),
