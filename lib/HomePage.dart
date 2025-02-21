@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dietary_log_app/AddMeal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DietaryLogPage extends StatefulWidget {
   @override
@@ -20,37 +21,46 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     'Snack': {'calories': 0, 'carbs': 0.0, 'protein': 0.0, 'fat': 0.0},
   };
 
+  String? userId;
+
   @override
   void initState() {
     super.initState();
     _loadMealData();
   }
 
-  _loadMealData() async {
-    FirebaseFirestore.instance
-        .collection('meals')
-        .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(selectedDate))
-        .get()
-        .then((querySnapshot) {
-      setState(() {
-        meals.forEach((mealType, mealData) {
-          mealData['calories'] = 0;
-          mealData['carbs'] = 0.0;
-          mealData['protein'] = 0.0;
-          mealData['fat'] = 0.0;
-        });
+  Future<void> _loadMealData() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      userId = user.uid;
+      FirebaseFirestore.instance
+          .collection('meals')
+          .where('userId', isEqualTo: userId)
+          .where('date', isEqualTo: DateFormat('yyyy-MM-dd').format(selectedDate))
+          .get()
+          .then((querySnapshot) {
+        setState(() {
+          meals.forEach((mealType, mealData) {
+            mealData['calories'] = 0;
+            mealData['carbs'] = 0.0;
+            mealData['protein'] = 0.0;
+            mealData['fat'] = 0.0;
+          });
 
-        querySnapshot.docs.forEach((doc) {
-          var mealData = doc.data() as Map<String, dynamic>;
-          String mealType = mealData['mealType'];
-          meals[mealType]!['calories'] += mealData['calories'] as int;
-          meals[mealType]!['carbs'] += mealData['carbs'] as double;
-          meals[mealType]!['protein'] += mealData['protein'] as double;
-          meals[mealType]!['fat'] += mealData['fat'] as double;
-          totalCalories += mealData['calories'] as int;
+          totalCalories = 0;
+
+          querySnapshot.docs.forEach((doc) {
+            var mealData = doc.data() as Map<String, dynamic>;
+            String mealType = mealData['mealType'];
+            meals[mealType]!['calories'] += mealData['calories'] as int;
+            meals[mealType]!['carbs'] += mealData['carbs'] as double;
+            meals[mealType]!['protein'] += mealData['protein'] as double;
+            meals[mealType]!['fat'] += mealData['fat'] as double;
+            totalCalories += mealData['calories'] as int;
+          });
         });
       });
-    });
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -77,71 +87,68 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
       totalCalories += calories;
     });
 
-    FirebaseFirestore.instance.collection('meals').add({
-      'mealType': mealType,
-      'calories': calories,
-      'carbs': carbs,
-      'protein': protein,
-      'fat': fat,
-      'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-    });
+    if (userId != null) {
+      FirebaseFirestore.instance.collection('meals').add({
+        'userId': userId,
+        'mealType': mealType,
+        'calories': calories,
+        'carbs': carbs,
+        'protein': protein,
+        'fat': fat,
+        'date': DateFormat('yyyy-MM-dd').format(selectedDate),
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => profilesetting()),
-        );
-      },
-    child: Scaffold(
-      backgroundColor: const Color.fromARGB(255, 222, 222, 222),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildHeader(),
-                    SizedBox(height: 20),
-                    _buildCalorieIndicator(),
-                    SizedBox(height: 20),
-                    _buildMacrosBar(),
-                    SizedBox(height: 20),
-                    _buildAddMealButton(context),
-                    SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () => _selectDate(context),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.calendar_today, color: const Color.fromARGB(255, 6, 14, 240)),
-                          SizedBox(width: 5),
-                          Text(
-                            _formatDate(selectedDate),
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 222, 222, 222),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      _buildHeader(),
+                      SizedBox(height: 20),
+                      _buildCalorieIndicator(),
+                      SizedBox(height: 20),
+                      _buildMacrosBar(),
+                      SizedBox(height: 20),
+                      _buildAddMealButton(context),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () => _selectDate(context),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.calendar_today, color: const Color.fromARGB(255, 6, 14, 240)),
+                            SizedBox(width: 5),
+                            Text(
+                              _formatDate(selectedDate),
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    _buildMealCard("Breakfast", meals['Breakfast']!['calories'].toString(), "assets/images/breakfast.png"),
-                    _buildMealCard("Lunch", meals['Lunch']!['calories'].toString(), "assets/images/lunch.png"),
-                    _buildMealCard("Dinner", meals['Dinner']!['calories'].toString(), "assets/images/dinner.png"),
-                    _buildMealCard("Snacks", meals['Snack']!['calories'].toString(), "assets/images/snacks.png"),
-                  ],
+                      SizedBox(height: 10),
+                      _buildMealCard("Breakfast", meals['Breakfast']!['calories'].toString(), "assets/images/breakfast.png"),
+                      _buildMealCard("Lunch", meals['Lunch']!['calories'].toString(), "assets/images/lunch.png"),
+                      _buildMealCard("Dinner", meals['Dinner']!['calories'].toString(), "assets/images/dinner.png"),
+                      _buildMealCard("Snacks", meals['Snack']!['calories'].toString(), "assets/images/snacks.png"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 
@@ -159,15 +166,14 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
   }
 
   Widget _buildHeader() {
-    DateTime today = DateTime.now();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,  
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CircleAvatar(
           radius: 30,
           backgroundImage: AssetImage('assets/images/profile.png'),
         ),
-        SizedBox(width: 20),  
+        SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -175,7 +181,6 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
             Text("USER", style: TextStyle(fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 196, 24, 104), fontSize: 15)),
           ],
         ),
-         
       ],
     );
   }
@@ -195,9 +200,9 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        _buildMacroItem('Carbs', meals['Breakfast']!['carbs']),
-        _buildMacroItem('Protein', meals['Breakfast']!['protein']),
-        _buildMacroItem('Fat', meals['Breakfast']!['fat']),
+        _buildMacroItem('Carbs', meals.values.fold(0.0, (sum, meal) => sum + meal['carbs']!)),
+        _buildMacroItem('Protein', meals.values.fold(0.0, (sum, meal) => sum + meal['protein']!)),
+        _buildMacroItem('Fat', meals.values.fold(0.0, (sum, meal) => sum + meal['fat']!)),
       ],
     );
   }
@@ -205,7 +210,7 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
   Widget _buildMacroItem(String label, double value) {
     return Column(
       children: [
-        Text(value.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(value.toStringAsFixed(1), style: TextStyle(fontWeight: FontWeight.bold)),
         Text(label),
       ],
     );
@@ -217,14 +222,16 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AddMealScreen(onSave: _updateMealData),
+            builder: (context) => AddMealScreen(onSave: (mealType, calories, carbs, protein, fat) {
+              _updateMealData(mealType, calories, carbs, protein, fat);
+            }),
           ),
         );
       },
       style: ElevatedButton.styleFrom(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0), 
-    ),
-      child: Text('Add Meal',style: TextStyle(color: const Color.fromARGB(255, 250, 249, 249)),),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
+      child: Text('Add Meal', style: TextStyle(color: const Color.fromARGB(255, 250, 249, 249))),
     );
   }
 
