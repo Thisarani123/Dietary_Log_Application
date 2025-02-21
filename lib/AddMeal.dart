@@ -118,7 +118,8 @@ class _AddMealScreenState extends State<AddMealScreen> {
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                          color: const Color.fromARGB(255, 237, 241, 241).withOpacity(0.5),
+                          color: const Color.fromARGB(255, 237, 241, 241)
+                              .withOpacity(0.5),
                           spreadRadius: 10,
                           blurRadius: 8),
                     ],
@@ -131,7 +132,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           controller: _foodController,
                           decoration: InputDecoration(
                               labelText: 'Food Name',
-                              labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               border: OutlineInputBorder())),
                       SizedBox(height: 12),
                       TextField(
@@ -139,7 +142,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               labelText: 'Calories',
-                              labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               border: OutlineInputBorder())),
                       SizedBox(height: 12),
                       TextField(
@@ -147,7 +152,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               labelText: 'Carbs',
-                              labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               border: OutlineInputBorder())),
                       SizedBox(height: 12),
                       TextField(
@@ -155,7 +162,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               labelText: 'Protein',
-                              labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               border: OutlineInputBorder())),
                       SizedBox(height: 12),
                       TextField(
@@ -163,7 +172,9 @@ class _AddMealScreenState extends State<AddMealScreen> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               labelText: 'Fat',
-                              labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                               border: OutlineInputBorder())),
                       SizedBox(height: 16),
                       DropdownButtonFormField<String>(
@@ -175,7 +186,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         },
                         items: ['Breakfast', 'Lunch', 'Dinner', 'Snack']
                             .map((mealType) => DropdownMenuItem(
-                                value: mealType, child: Text(mealType, style: TextStyle(fontWeight: FontWeight.bold),)))
+                                  value: mealType,
+                                  child: Text(mealType,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ))
                             .toList(),
                       ),
                       SizedBox(height: 16),
@@ -183,7 +198,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
                         children: [
                           Text(
                               'Date: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: const Color.fromARGB(255, 35, 5, 155))),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: const Color.fromARGB(
+                                      255, 35, 5, 155))),
                           IconButton(
                               icon: Icon(Icons.calendar_today),
                               onPressed: () => _selectDate(context)),
@@ -192,7 +211,11 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       Row(
                         children: [
                           Text('Time: ${_selectedTime.format(context)}',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,color: const Color.fromARGB(255, 35, 5, 155))),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: const Color.fromARGB(
+                                      255, 35, 5, 155))),
                           IconButton(
                               icon: Icon(Icons.access_time),
                               onPressed: () => _selectTime(context)),
@@ -200,11 +223,15 @@ class _AddMealScreenState extends State<AddMealScreen> {
                       ),
                       SizedBox(height: 5),
                       ElevatedButton(
-                          onPressed: _saveMeal,
-                          style: ElevatedButton.styleFrom(
+                        onPressed: _saveMeal,
+                        style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                         ),
-                          child: Text('Save Meal',style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255),fontSize: 17))),
+                        child: Text('Save Meal',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 255, 255, 255),
+                                fontSize: 17)),
+                      ),
                     ],
                   ),
                 ),
