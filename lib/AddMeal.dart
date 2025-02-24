@@ -97,12 +97,12 @@ class _AddMealScreenState extends State<AddMealScreen> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/addmeals.jpg'),
+              image: AssetImage('assets/images/new.jpg'),
               fit: BoxFit.cover,
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Column(
               children: [
                 SizedBox(height: 60),
