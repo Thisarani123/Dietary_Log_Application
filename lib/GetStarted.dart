@@ -26,6 +26,7 @@ class _GetstartedState extends State<Getstarted> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             RichText(
+              key: const Key('splash_rich_text'),
                 text: TextSpan(
                   children: [
                     TextSpan(
@@ -63,6 +64,7 @@ class _GetstartedState extends State<Getstarted> {
                   ),
                   SizedBox(height: 80),
                   InkWell(
+                    key: const Key('get_started_button'),
                     splashColor: Colors.black,
                     onTap: () {
                       Navigator.push(

@@ -44,6 +44,7 @@ class _OpeningPageState extends State<Splashpage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
+                key: const Key('splash_rich_text'),
                 text: const TextSpan(
                   children: [
                     TextSpan(
@@ -67,6 +68,7 @@ class _OpeningPageState extends State<Splashpage> {
               ),
               const SizedBox(height: 20),
               Container(
+                key: const Key('splash_logo'),
                 width: 150,
                 height: 150,
                 decoration: BoxDecoration(

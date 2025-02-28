@@ -29,6 +29,15 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        testInstrumentationRunner "pl.leancode.patrol.PatrolJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: "true"
+        multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+
+    }
+
     }
 
     buildTypes {
@@ -38,6 +47,9 @@ android {
             signingConfig = signingConfigs.debug
         }
     }
+    testOptions {
+      execution "ANDROIDX_TEST_ORCHESTRATOR"
+  }
 }
 
 flutter {
@@ -47,6 +59,7 @@ flutter {
 dependencies {
   // Import the Firebase BoM
   implementation platform('com.google.firebase:firebase-bom:33.9.0')
+  androidTestUtil "androidx.test:orchestrator:1.5.1"
 
 
   // TODO: Add the dependencies for Firebase products you want to use
