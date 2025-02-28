@@ -17,7 +17,7 @@ void main() {
       expect($(find.text('E-MAIL:')), findsOneWidget);
       expect($(find.text('PASSWORD:')), findsOneWidget);
 
-      await $(find.byType(TextField).first).enterText('thisaranikaushalya5@gmail.com');
+      await $(find.byType(TextField).first).enterText('test5@gmail.com');
       await $(find.byType(TextField).last).enterText('password123');
       await $(find.text('LOGIN')).tap(); 
 
@@ -26,14 +26,14 @@ void main() {
 
       await $(find.byType(TextField).first).enterText("");
       await $(find.byType(TextField).last).enterText("");
-      await $(find.byType(TextField).first).enterText('thisaranikaushalya5@gmail.com');
+      await $(find.byType(TextField).first).enterText('test@gmail.com');
       await $(find.byType(TextField).last).enterText('password123');
       await $(find.text('LOGIN')).tap(); 
 
       await $(find.text('Welcome!')).waitUntilVisible(); 
 
       await $(find.text('Forgot Password?')).tap();
-      await $(find.byType(TextField).first).enterText('thisaranikaushalya5@gmail.com');
+      await $(find.byType(TextField).first).enterText('test5@gmail.com');
       await $(find.text('Send Reset Email')).tap(); 
       expect($(find.text('Password reset email sent.')), findsOneWidget);
 
