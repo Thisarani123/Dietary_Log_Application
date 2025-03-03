@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mockito/mockito.dart';
 
-// Mock FirebaseAuth
+
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 class MockUser extends Mock implements User {}
 
@@ -32,7 +32,7 @@ void main() {
       // Mock SharedPreferences
       SharedPreferences.setMockInitialValues({});
 
-      // Start the app with Sidebar as the home widget
+      
       await $.pumpWidget(MaterialApp(
         routes: {
           '/': (context) => sidebar(
@@ -40,21 +40,21 @@ void main() {
                 username: 'Test User',
                 email: 'thisaranikaushalya5@gmail.com',
               ),
-          '/login': (context) => Signinpage(), // Ensure this route is defined
+          '/login': (context) => Signinpage(), 
         },
       ));
 
-      // Open the drawer
+      
       await $(find.byIcon(Icons.menu)).tap();
       await $(find.text('Home')).waitUntilVisible();
 
-      // Verify profile information in the DrawerHeader
+      
       expect($(find.text('Test User')), findsOneWidget);
       expect($(find.text('thisaranikaushalya5@gmail.com')), findsOneWidget);
 
       // Navigate to Add Meal page
       await $(find.text('Add Meal')).tap();
-      await $(find.text('Add My Meals')).waitUntilVisible(); // Ensure this text exists on the AddMealScreen
+      await $(find.text('Add My Meals')).waitUntilVisible(); 
 
       // Navigate back to Home page
       await $(find.byIcon(Icons.menu)).tap();
@@ -63,18 +63,18 @@ void main() {
       // Navigate to Profile page
       await $(find.byIcon(Icons.menu)).tap();
       await $(find.text('Profile')).tap();
-      await $(find.text('User Name')).waitUntilVisible(); // Ensure this text exists on the ProfileSetting page
+      await $(find.text('User Name')).waitUntilVisible(); 
 
       // Test logout functionality
       await $(find.byIcon(Icons.menu)).tap();
       await $(find.text('Logout')).tap();
 
-      // Wait for navigation to the login screen
-      await Future.delayed(const Duration(seconds: 2)); // Add a delay to allow navigation to complete
+      // navigation to the login screen
+      await Future.delayed(const Duration(seconds: 2)); 
 
-      // Verify that the login screen is displayed
-      await $(find.text('E-MAIL:')).waitUntilVisible(); // Updated to match the actual text on the Signinpage
-      await $(find.text('PASSWORD:')).waitUntilVisible(); // Updated to match the actual text on the Signinpage
+      
+      await $(find.text('E-MAIL:')).waitUntilVisible(); 
+      await $(find.text('PASSWORD:')).waitUntilVisible(); 
     },
   );
 }
