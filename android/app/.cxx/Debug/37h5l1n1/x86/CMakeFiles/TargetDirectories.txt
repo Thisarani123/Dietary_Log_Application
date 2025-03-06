@@ -1,0 +1,2 @@
+C:/intern work/gitrepo/Dietary_Log_Application/android/app/.cxx/Debug/37h5l1n1/x86/CMakeFiles/edit_cache.dir
+C:/intern work/gitrepo/Dietary_Log_Application/android/app/.cxx/Debug/37h5l1n1/x86/CMakeFiles/rebuild_cache.dir
