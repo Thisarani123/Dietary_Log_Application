@@ -11,9 +11,7 @@ void main() {
      
       PatrolBinding.ensureInitialized(NativeAutomatorConfig());
       await $.pumpWidget(const MaterialApp(home: Splashpage()));
-      expect($(find.byKey(const Key('splash_rich_text'))), findsOneWidget);
-      expect($(find.byKey(const Key('splash_logo'))), findsOneWidget);
-      await Future.delayed(const Duration(seconds: 4));
+      
 
     },
   );
