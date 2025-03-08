@@ -26,8 +26,8 @@ void main() {
       final mockAuth = MockFirebaseAuth();
       final mockUser = MockUser();
       when(mockAuth.currentUser).thenReturn(mockUser);
-      when(mockUser.email).thenReturn('thisaranikaushalya5@gmail.com');
-      when(mockUser.displayName).thenReturn('Test User');
+      when(mockUser.email).thenReturn('paraminavodani@gmail.com');
+      when(mockUser.displayName).thenReturn('testuser');
 
       // Mock SharedPreferences
       SharedPreferences.setMockInitialValues({});
@@ -36,9 +36,9 @@ void main() {
       await $.pumpWidget(MaterialApp(
         routes: {
           '/': (context) => sidebar(
-                profileImageUrl: 'https://via.placeholder.com/150',
-                username: 'Test User',
-                email: 'thisaranikaushalya5@gmail.com',
+                profileImageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.veryicon.com%2Ficons%2Finternet--web%2Fweb-interface-flat%2F6606-male-user.html&psig=AOvVaw35r47xYf9bWTKZaP0CmBlI&ust=1741417606864000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjinKi094sDFQAAAAAdAAAAABAJ',
+                username: 'testuser',
+                email: 'paraminavodani@gmail.com',
               ),
           '/login': (context) => Signinpage(), 
         },
@@ -49,8 +49,8 @@ void main() {
       await $(find.text('Home')).waitUntilVisible();
 
       
-      expect($(find.text('Test User')), findsOneWidget);
-      expect($(find.text('thisaranikaushalya5@gmail.com')), findsOneWidget);
+      expect($(find.text('testuser')), findsOneWidget);
+      expect($(find.text('paraminavodani@gmail.com')), findsOneWidget);
 
       // Navigate to Add Meal page
       await $(find.text('Add Meal')).tap();

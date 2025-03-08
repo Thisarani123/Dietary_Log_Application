@@ -39,6 +39,7 @@ Widget reusableTextField(
 Container signInSignUpButton(
     BuildContext context, bool isLogin, Function onTap) {
   return Container(
+    key: isLogin ? const Key('signInButton') : const Key('signUpButton'),
     width: 170,
     height: 50,
     margin: EdgeInsets.fromLTRB(0, 10, 0, 20),

@@ -64,7 +64,6 @@ class _GetstartedState extends State<Getstarted> {
                   ),
                   SizedBox(height: 80),
                   InkWell(
-                    key: const Key('get_started_button'),
                     splashColor: Colors.black,
                     onTap: () {
                       Navigator.push(
@@ -73,6 +72,7 @@ class _GetstartedState extends State<Getstarted> {
                               builder: (context) => Signinpage()));
                     },
                     child: Ink(
+                      key: Key('getStartedButton'),
                       child: Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 12, horizontal: 30),

@@ -48,6 +48,7 @@ dev_dependencies:
     sdk: flutter
   mockito: ^5.4.5
   build_runner: ^2.4.15
+  firebase_auth_mocks: ^0.14.1
   integration_test:
     sdk: flutter
   patrol: ^3.14.0
@@ -79,7 +80,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - assets/images/
-  #   - images/a_dot_ham.jpeg
+  - test/assets/test_image.png
+  - assets/images/getstarted.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

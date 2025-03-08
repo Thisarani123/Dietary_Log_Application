@@ -96,7 +96,10 @@ class _DietaryLogPageState extends State<DietaryLogPage> {
         'protein': protein,
         'fat': fat,
         'date': DateFormat('yyyy-MM-dd').format(selectedDate),
-      });
+      }).then((_) {
+      // Reload meal data after saving
+      _loadMealData();
+    });
     }
   }
 

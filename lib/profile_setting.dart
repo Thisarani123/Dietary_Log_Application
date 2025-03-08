@@ -14,7 +14,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class profilesetting extends StatefulWidget {
-  const profilesetting({super.key});
+  final ImagePicker? imagePicker; // Add this line to allow dependency injection
+
+  const profilesetting({Key? key, this.imagePicker}) : super(key: key);
 
   @override
   State<profilesetting> createState() => _profilesettingState();
@@ -72,11 +74,7 @@ class _profilesettingState extends State<profilesetting> {
             ),
           ),
         );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please select an image'),
-        ));
-      }
+      } 
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Failed to upload user data: $error'),

@@ -178,6 +178,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                               border: OutlineInputBorder())),
                       SizedBox(height: 16),
                       DropdownButtonFormField<String>(
+                        key: const Key('mealTypeDropdown'),
                         value: _mealType,
                         onChanged: (String? newValue) {
                           setState(() {

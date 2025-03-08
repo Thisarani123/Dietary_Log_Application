@@ -21,7 +21,7 @@ void main() {
         ),
       ));
 
-      expect($(find.text('Add Meal')), findsOneWidget);
+      expect($(find.text('Add My Meals')), findsOneWidget);
 
       await $(find.byType(TextField).first).enterText('Pizza'); 
       await $(find.byType(TextField).at(1)).enterText('300');   
