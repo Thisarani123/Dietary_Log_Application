@@ -40,7 +40,7 @@ void main() {
       expect($(find.text('SIGN IN HERE')), findsOneWidget);
 
       // Step 5: Enter invalid email and verify error message
-      await $(find.byType(TextField).at(0)).enterText('paraminavodani@gmail.com');
+      await $(find.byType(TextField).at(0)).enterText('test@gmail.com');
       await $(find.byType(TextField).at(1)).enterText('testuser');
       await $(find.byType(TextField).at(2)).enterText('password123');
       await $(find.text('SIGN UP')).tap();

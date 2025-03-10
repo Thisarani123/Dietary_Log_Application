@@ -26,7 +26,7 @@ void main() {
       final mockAuth = MockFirebaseAuth();
       final mockUser = MockUser();
       when(mockAuth.currentUser).thenReturn(mockUser);
-      when(mockUser.email).thenReturn('paraminavodani@gmail.com');
+      when(mockUser.email).thenReturn('test@gmail.com');
       when(mockUser.displayName).thenReturn('testuser');
 
       // Mock SharedPreferences
@@ -38,7 +38,7 @@ void main() {
           '/': (context) => sidebar(
                 profileImageUrl: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.veryicon.com%2Ficons%2Finternet--web%2Fweb-interface-flat%2F6606-male-user.html&psig=AOvVaw35r47xYf9bWTKZaP0CmBlI&ust=1741417606864000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjinKi094sDFQAAAAAdAAAAABAJ',
                 username: 'testuser',
-                email: 'paraminavodani@gmail.com',
+                email: 'test@gmail.com',
               ),
           '/login': (context) => Signinpage(), 
         },
@@ -50,7 +50,7 @@ void main() {
 
       
       expect($(find.text('testuser')), findsOneWidget);
-      expect($(find.text('paraminavodani@gmail.com')), findsOneWidget);
+      expect($(find.text('test@gmail.com')), findsOneWidget);
 
       // Navigate to Add Meal page
       await $(find.text('Add Meal')).tap();

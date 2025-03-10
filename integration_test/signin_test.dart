@@ -55,7 +55,7 @@ void main() {
 
       // Step 5: Enter email and password
       print("Entering email into the first TextField...");
-      await $(find.byType(TextField).at(0)).enterText('paraminavodani@gmail.com');
+      await $(find.byType(TextField).at(0)).enterText('test@gmail.com');
       print("Email entered successfully");
 
       print("Entering password into the second TextField...");
